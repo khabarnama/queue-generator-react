@@ -66,6 +66,8 @@ function Profile() {
     }
   }
 
+  console.log('CURRENT > TIME ', new Date().getHours())
+
   return (
     <div className='center'>
       <div className='ticket-visual_visual '>
@@ -115,15 +117,17 @@ function Profile() {
           </div>
           <br />
           <br />
-          <div className='ticket-visual_ticket-number-wrapper'>
-            {queuenum ? (
-              <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
-            ) : (
-              <span className='btn' onClick={() => handleSubmit()}>
-                Get Queue Number
-              </span>
-            )}
-          </div>
+          {new Date().getHours() >= 16 && new Date().getHours() <= 17 && (
+            <div className='ticket-visual_ticket-number-wrapper'>
+              {queuenum ? (
+                <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
+              ) : (
+                <span className='btn' onClick={() => handleSubmit()}>
+                  Get Queue Number
+                </span>
+              )}
+            </div>
+          )}
           <br />
           <br />
           <span className='link' onClick={() => signOut(auth)}>
