@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, updateProfile } from 'firebase/auth'
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -24,7 +24,6 @@ export async function upload(file, currentUser, setLoading) {
 
   setLoading(true)
 
-  const snapshot = await uploadBytes(fileRef, file)
   const photoURL = await getDownloadURL(fileRef)
 
   updateProfile(currentUser, { photoURL })

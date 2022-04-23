@@ -10,7 +10,9 @@ function Profile() {
   const [loading, setLoading] = useState(false)
   const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
-  const [photoURL, setPhotoURL] = useState('./card.png')
+  const [photoURL, setPhotoURL] = useState(
+    'https://cdn.pixabay.com/photo/2019/08/30/15/00/student-4441576_960_720.png'
+  )
   const current = new Date()
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
 
@@ -83,7 +85,8 @@ function Profile() {
             <div className='ticket-profile_profile'>
               {currentUser && (
                 <>
-                  {photoURL === './card.png' && (
+                  {photoURL ===
+                    'https://cdn.pixabay.com/photo/2019/08/30/15/00/student-4441576_960_720.png' && (
                     <div className='fields'>
                       <input
                         className='custom-file-input'
