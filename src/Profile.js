@@ -10,9 +10,7 @@ function Profile() {
   const [loading, setLoading] = useState(false)
   const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
-  const [photoURL, setPhotoURL] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
-  )
+  const [photoURL, setPhotoURL] = useState('./card.png')
   const current = new Date()
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
 
@@ -70,24 +68,32 @@ function Profile() {
 
   return (
     <div className='center'>
-      <div class='ticket-visual_visual'>
-        <div class='ticket-visual-wrapper'>
-          <div class='ticket-visual_ticket-number-wrapper'>
+      <div className='ticket-visual_visual '>
+        <div className='ticket-visual-wrapper login_form'>
+          <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <br />
-            <div class='ticket-visual_ticket-number'>Ticket</div>
+            <div className='ticket-visual_ticket-number'>Ticket</div>
             <br />
             <br />
           </div>
-          <div class='ticket-visual_profile'>
-            <div class='ticket-profile_profile'>
+          <div className='ticket-visual_profile'>
+            <div className='ticket-profile_profile'>
               {currentUser && (
                 <>
-                  {photoURL ===
-                    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png' && (
+                  {photoURL === './card.png' && (
                     <div className='fields'>
-                      <input type='file' onChange={handleChange} />
-                      <button disabled={loading || !photo} onClick={handleClick}>
+                      <input
+                        className='custom-file-input'
+                        type='file'
+                        custom-file-input
+                        onChange={handleChange}
+                      />
+                      <button
+                        className='btn-upload'
+                        disabled={loading || !photo}
+                        onClick={handleClick}
+                      >
                         Upload
                       </button>
                     </div>
@@ -95,23 +101,25 @@ function Profile() {
                   <img
                     width='100%'
                     src={photoURL}
-                    alt='Card Picture'
+                    alt='Card Illustration'
                     className='ticket-profile_image'
                   />
                 </>
               )}
               <br />
               <br />
-              <div class='ticket-profile_text'>{current.toLocaleDateString('en-US', options)}</div>
+              <div className='ticket-profile_text'>
+                {current.toLocaleDateString('en-US', options)}
+              </div>
             </div>
           </div>
           <br />
           <br />
-          <div class='ticket-visual_ticket-number-wrapper'>
+          <div className='ticket-visual_ticket-number-wrapper'>
             {queuenum ? (
-              <div class='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
+              <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
             ) : (
-              <span class='btn' onClick={() => handleSubmit()}>
+              <span className='btn' onClick={() => handleSubmit()}>
                 Get Queue Number
               </span>
             )}

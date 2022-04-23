@@ -43,7 +43,7 @@ function App() {
           />
           <Route path='/verify-email' element={<VerifyEmail />} />
         </Routes>
-        <center class='text-center'>Developed by @mymakarim</center>
+        <center className='text-center'>Developed by @mymakarim</center>
       </AuthProvider>
     </Router>
   )

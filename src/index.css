@@ -16,6 +16,10 @@ body {
   justify-content: center;
   height: 100vh;
 }
+.flex {
+  display: flex;
+  align-items: center;
+}
 
 * {
   box-sizing: border-box;
@@ -97,7 +101,7 @@ label {
   position: absolute;
   top: 16px;
   color: #fff;
-  font: 400 16px 'Poppins';
+  font: 400 16px;
   cursor: text;
   transition: 0.25s ease;
 }
@@ -115,7 +119,7 @@ input {
 }
 input:valid ~ label {
   top: 0;
-  font: 700 16px Poppins;
+  font: 700 16px;
   color: #fff;
 }
 input:focus {
@@ -123,7 +127,7 @@ input:focus {
 }
 input:focus ~ label {
   top: 0;
-  font: 700 16px Poppins;
+  font: 700 16px;
 }
 input:focus ~ .bar:before {
   transform: translateX(0);
@@ -150,7 +154,58 @@ input:-webkit-autofill {
   background: #var(var(--color2));
   transform: translateX(-100%);
 }
-
-::selection {
-  background: rgba(33, 150, 243, 0.3);
+.fields {
+  display: flex;
+  align-items: center;
+  justify-content: between;
+  margin-bottom: 15px;
+}
+.btn-upload {
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 0px 3px 3px 0px;
+  padding: 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.btn-upload:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.custom-file-input {
+  padding: 0;
+  color: transparent;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Select some files';
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px 0px 0px 3px;
+  padding: 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  width: 100%;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }

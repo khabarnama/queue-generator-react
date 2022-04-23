@@ -33,46 +33,46 @@ function Login() {
   return (
     <div className='center'>
       <div className='ticket-visual_visual'>
-        <div class='ticket-visual-wrapper'>
-          <div class='ticket-visual_ticket-number-wrapper'>
+        <div className='ticket-visual-wrapper'>
+          <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <br />
-            <div class='ticket-visual_ticket-number'>Log In</div>
+            <div className='ticket-visual_ticket-number'>Log In</div>
             <br />
             <br />
           </div>
           {error && <div className='auth__error'>{error}</div>}
-          <form onSubmit={login} className='login_form'>
-            <div class='group'>
+          <form onSubmit={login} name='login_form' className='login_form'>
+            <div className='group'>
               <input
                 type='email'
                 value={email}
                 required
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <label for='name'>Email</label>
-              <div class='bar'></div>
+              <label htmlFor='name'>Email</label>
+              <div className='bar'></div>
             </div>
 
-            <div class='group'>
+            <div className='group'>
               <input
                 type='password'
                 value={password}
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <label for='name'>Password</label>
-              <div class='bar'></div>
+              <label htmlFor='name'>Password</label>
+              <div className='bar'></div>
             </div>
 
             <br />
-            <button class='btn' type='submit'>
+            <button className='btn' type='submit'>
               Login
             </button>
           </form>
           <p>
             Don't have and account? <br />
-            <Link class='link' to='/register'>
+            <Link className='link' to='/register'>
               <small>Create one here</small>
             </Link>
           </p>
