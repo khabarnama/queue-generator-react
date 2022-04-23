@@ -10,7 +10,11 @@
 body {
   background: var(--background);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Poppins, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 * {
@@ -75,4 +79,78 @@ body {
 .link:hover {
   color: white;
   transition: ease-in-out 0.2s;
+}
+.text-center {
+  text-align: center;
+}
+.login_form {
+  padding: 15px;
+}
+.group {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+}
+
+label {
+  position: absolute;
+  top: 16px;
+  color: #fff;
+  font: 400 16px 'Poppins';
+  cursor: text;
+  transition: 0.25s ease;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding-top: 36.6666666667px;
+  border: none;
+  border-radius: 0;
+  color: white;
+  background: #000;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+input:valid ~ label {
+  top: 0;
+  font: 700 16px Poppins;
+  color: #fff;
+}
+input:focus {
+  outline: none;
+}
+input:focus ~ label {
+  top: 0;
+  font: 700 16px Poppins;
+}
+input:focus ~ .bar:before {
+  transform: translateX(0);
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  -webkit-text-fill-color: white !important;
+}
+
+.bar {
+  background: #fff;
+  content: '';
+  width: 550px;
+  height: 1.6666666667px;
+  transition: 0.3s ease;
+  position: relative;
+  margin-bottom: 10px;
+}
+.bar:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 150%;
+  background: #var(var(--color2));
+  transform: translateX(-100%);
+}
+
+::selection {
+  background: rgba(33, 150, 243, 0.3);
 }

@@ -74,7 +74,9 @@ function Profile() {
         <div class='ticket-visual-wrapper'>
           <div class='ticket-visual_ticket-number-wrapper'>
             <br />
+            <br />
             <div class='ticket-visual_ticket-number'>Ticket</div>
+            <br />
             <br />
           </div>
           <div class='ticket-visual_profile'>
