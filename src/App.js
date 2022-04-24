@@ -43,7 +43,12 @@ function App() {
           />
           <Route path='/verify-email' element={<VerifyEmail />} />
         </Routes>
-        <center className='text-center'>Developed by @mymakarim</center>
+        <center className='text-center font-mplus'>
+          Developed by{' '}
+          <a rel='noreferrer' className='link' href='https://linktr.ee/mymakaim' target='_blank'>
+            @mymakarim
+          </a>
+        </center>
       </AuthProvider>
     </Router>
   )

@@ -118,7 +118,7 @@ function Profile() {
                 </>
               )}
               <br />
-              <div className='ticket-profile_text'>
+              <div className='ticket-profile_text font-mplus'>
                 {current.toLocaleDateString('en-US', options)}
                 <span className='meta'> | 5:00 PM</span>
               </div>

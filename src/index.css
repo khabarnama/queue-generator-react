@@ -51,8 +51,10 @@ body {
   border-radius: 15px;
   padding-bottom: 30px;
 }
-.ticket-profile_text {
+.font-mplus {
   font-family: 'M PLUS 1 Code', sans-serif;
+}
+.ticket-profile_text {
   font-weight: 600;
   margin-top: 10px;
   margin-left: 15px;
@@ -98,6 +100,7 @@ body {
   cursor: pointer;
   transition: ease-in-out 0.2s;
   margin-bottom: 0;
+  text-decoration: none;
 }
 .link:hover {
   color: white;
