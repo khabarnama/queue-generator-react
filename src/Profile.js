@@ -1,6 +1,6 @@
 import { useAuthValue } from './AuthContext'
 import { signOut } from 'firebase/auth'
-import { auth, upload, db } from './firebase'
+import { auth, upload, db, deletePhoto } from './firebase'
 import { useEffect, useState } from 'react'
 import { collection, doc, setDoc, getDoc, Timestamp, query, onSnapshot } from 'firebase/firestore'
 
@@ -8,11 +8,10 @@ function Profile() {
   const { currentUser } = useAuthValue()
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [candel, setCandel] = useState(false)
   const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
-  const [photoURL, setPhotoURL] = useState(
-    'https://cdn.pixabay.com/photo/2019/08/30/15/00/student-4441576_960_720.png'
-  )
+  const [photoURL, setPhotoURL] = useState(null)
   const current = new Date()
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
 
@@ -25,12 +24,15 @@ function Profile() {
   }
 
   function handleClick() {
-    upload(photo, currentUser, setLoading)
+    // console.log('PHOTO: ', photo)
+    // console.log('CURRENT USER: ', currentUser)
+    // console.log('LOADING: ', loading)
+    upload(photo, currentUser, setLoading, setPhotoURL, setCandel)
   }
 
   useEffect(() => {
     if (currentUser?.photoURL) {
-      setPhotoURL(currentUser.photoURL)
+      setPhotoURL(currentUser?.photoURL)
     }
 
     const getQueue = async () => {
@@ -68,14 +70,23 @@ function Profile() {
     }
   }
 
-  console.log('CURRENT > TIME ', new Date().getHours())
+  console.log(
+    'CURRENT > TIME ',
+    new Date().getHours(),
+    new Date().getHours() >= 12 && new Date().getHours() <= 13
+  )
+
+  const imageToDefault = ({ currentTarget }) => {
+    console.log('ON ERROR TRIGGERED')
+    currentTarget.onerror = null // prevents looping
+    setCandel(true)
+  }
 
   return (
     <div className='center'>
       <div className='ticket-visual_visual '>
         <div className='ticket-visual-wrapper login_form'>
           <div className='ticket-visual_ticket-number-wrapper'>
-            <br />
             <br />
             <div className='ticket-visual_ticket-number'>Ticket</div>
             <br />
@@ -85,15 +96,9 @@ function Profile() {
             <div className='ticket-profile_profile'>
               {currentUser && (
                 <>
-                  {photoURL ===
-                    'https://cdn.pixabay.com/photo/2019/08/30/15/00/student-4441576_960_720.png' && (
+                  {photoURL === null && (
                     <div className='fields'>
-                      <input
-                        className='custom-file-input'
-                        type='file'
-                        custom-file-input
-                        onChange={handleChange}
-                      />
+                      <input className='custom-file-input' type='file' onChange={handleChange} />
                       <button
                         className='btn-upload'
                         disabled={loading || !photo}
@@ -105,22 +110,23 @@ function Profile() {
                   )}
                   <img
                     width='100%'
-                    src={photoURL}
+                    src={photoURL ?? './card.png'}
+                    onError={(currentTarget) => imageToDefault(currentTarget)}
                     alt='Card Illustration'
                     className='ticket-profile_image'
                   />
                 </>
               )}
               <br />
-              <br />
               <div className='ticket-profile_text'>
                 {current.toLocaleDateString('en-US', options)}
+                <span className='meta'> | 5:00 PM</span>
               </div>
             </div>
           </div>
           <br />
           <br />
-          {new Date().getHours() >= 16 && new Date().getHours() <= 17 && (
+          {new Date().getHours() >= 16 && new Date().getHours() <= 17 ? (
             <div className='ticket-visual_ticket-number-wrapper'>
               {queuenum ? (
                 <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
@@ -130,12 +136,22 @@ function Profile() {
                 </span>
               )}
             </div>
+          ) : (
+            <button className='btn' disabled>
+              Please wait till <b>4 PM</b>
+            </button>
           )}
           <br />
           <br />
           <span className='link' onClick={() => signOut(auth)}>
             Sign Out
           </span>
+
+          {candel && (
+            <span className='link' onClick={() => deletePhoto(currentUser, setPhotoURL, setCandel)}>
+              {' | '}Delete Image
+            </span>
+          )}
         </div>
       </div>
     </div>

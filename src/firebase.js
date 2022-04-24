@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, updateProfile } from 'firebase/auth'
-import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -19,17 +19,24 @@ const storage = getStorage()
 const db = getFirestore(app)
 
 // Storage
-export async function upload(file, currentUser, setLoading) {
-  const fileRef = ref(storage, currentUser.uid + '.png')
+async function upload(file, currentUser, setLoading, setPhotoURL) {
+  const fileRef = ref(storage, currentUser.uid + '.' + file.name.split('.')[1])
 
   setLoading(true)
-
+  await uploadBytes(fileRef, file)
   const photoURL = await getDownloadURL(fileRef)
-
   updateProfile(currentUser, { photoURL })
-
+  setPhotoURL(photoURL)
   setLoading(false)
-  alert('Uploaded file!')
+  // alert('Uploaded file!')
 }
 
-export { auth, db }
+function deletePhoto(currentUser, setPhotoURL, setCandel) {
+  updateProfile(currentUser, { photoURL: '' }).then(() => {
+    // alert('photoURL deleted!')
+    setPhotoURL(null)
+    setCandel(false)
+  })
+}
+
+export { auth, db, upload, deletePhoto }
