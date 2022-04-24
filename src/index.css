@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=M+PLUS+1+Code:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@400;500;600;700&family=Righteous&display=swap');
 :root {
   --size: 1;
   --background: #000;
@@ -11,12 +11,13 @@
 body {
   background: var(--background);
   color: white;
-  font-family: 'Bebas Neue', cursive;
+  font-family: 'Righteous', cursive;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
+
 .flex {
   display: flex;
   align-items: center;
@@ -32,13 +33,14 @@ body {
   margin: 30px auto;
   position: relative;
   transition: all 300ms cubic-bezier(0.03, 0.98, 0.53, 0.99) 0s;
-  background: linear-gradient(
-    to bottom,
+  /* background: linear-gradient(
+    to bottom left,
     var(--color1),
     var(--color2),
     var(--color3),
     var(--color4)
-  );
+  ); */
+  background: linear-gradient(to top right, #fff, #fff, #232323, #fff);
   border-radius: 20px;
   padding: 5px;
 }
@@ -53,6 +55,9 @@ body {
 }
 .font-mplus {
   font-family: 'M PLUS 1 Code', sans-serif;
+}
+button {
+  font-family: 'Righteous', cursive;
 }
 .ticket-profile_text {
   font-weight: 600;
@@ -110,6 +115,9 @@ body {
   text-align: center;
 }
 .login_form {
+  padding: 30px 15px;
+}
+.py-30 {
   padding: 30px 0;
 }
 .group {

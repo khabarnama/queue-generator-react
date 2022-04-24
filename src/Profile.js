@@ -85,7 +85,7 @@ function Profile() {
   return (
     <div className='center'>
       <div className='ticket-visual_visual '>
-        <div className='ticket-visual-wrapper login_form'>
+        <div className='ticket-visual-wrapper py-30'>
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <div className='ticket-visual_ticket-number'>Ticket</div>
