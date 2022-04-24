@@ -31,11 +31,10 @@ async function upload(file, currentUser, setLoading, setPhotoURL) {
   // alert('Uploaded file!')
 }
 
-function deletePhoto(currentUser, setPhotoURL, setCandel) {
+function deletePhoto(currentUser, setPhotoURL) {
   updateProfile(currentUser, { photoURL: '' }).then(() => {
     // alert('photoURL deleted!')
     setPhotoURL(null)
-    setCandel(false)
   })
 }
 

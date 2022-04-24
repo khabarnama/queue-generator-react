@@ -8,7 +8,6 @@ function Profile() {
   const { currentUser } = useAuthValue()
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [candel, setCandel] = useState(false)
   const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
   const [photoURL, setPhotoURL] = useState(null)
@@ -27,7 +26,7 @@ function Profile() {
     // console.log('PHOTO: ', photo)
     // console.log('CURRENT USER: ', currentUser)
     // console.log('LOADING: ', loading)
-    upload(photo, currentUser, setLoading, setPhotoURL, setCandel)
+    upload(photo, currentUser, setLoading, setPhotoURL)
   }
 
   useEffect(() => {
@@ -79,8 +78,11 @@ function Profile() {
   const imageToDefault = ({ currentTarget }) => {
     console.log('ON ERROR TRIGGERED')
     currentTarget.onerror = null // prevents looping
-    setCandel(true)
+    deletePhoto(currentUser, setPhotoURL)
   }
+
+  const toChars = (n) =>
+    `${n >= 26 ? toChars(Math.floor(n / 26) - 1) : ''}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n % 26]}`
 
   return (
     <div className='center'>
@@ -89,7 +91,7 @@ function Profile() {
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <div className='ticket-visual_ticket-number'>Ticket</div>
-            <br />
+            <p>{currentUser?.email}</p>
             <br />
           </div>
           <div className='ticket-visual_profile'>
@@ -120,7 +122,13 @@ function Profile() {
               <br />
               <div className='ticket-profile_text font-mplus'>
                 {current.toLocaleDateString('en-US', options)}
-                <span className='meta'> | 5:00 PM</span>
+                <span className='meta'>
+                  {' '}
+                  |{' #'}
+                  {toChars(current.getHours()) +
+                    toChars(current.getDate()) +
+                    toChars(current.getMonth())}
+                </span>
               </div>
             </div>
           </div>
@@ -131,27 +139,21 @@ function Profile() {
               {queuenum ? (
                 <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
               ) : (
-                <span className='btn' onClick={() => handleSubmit()}>
-                  Get Queue Number
-                </span>
+                <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
+                  {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
+                </button>
               )}
             </div>
           ) : (
             <button className='btn' disabled>
-              Please wait till <b>4 PM</b>
+              Please wait till 4 PM
             </button>
           )}
           <br />
           <br />
           <span className='link' onClick={() => signOut(auth)}>
-            Sign Out
+            Log Out
           </span>
-
-          {candel && (
-            <span className='link' onClick={() => deletePhoto(currentUser, setPhotoURL, setCandel)}>
-              {' | '}Delete Image
-            </span>
-          )}
         </div>
       </div>
     </div>
