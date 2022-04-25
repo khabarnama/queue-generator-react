@@ -53,9 +53,9 @@ body {
     var(--color3),
     var(--color4)
   ); */
-  background: linear-gradient(var(--angle), #fff, #fff, #232323, #fff);
+  background: linear-gradient(to top right, #fff, #fff, #232323, #fff);
   /* animation: gradient 15s ease infinite; */
-  /* animation: 10s rotate linear infinite; */
+  animation: 3s rotate linear infinite;
   border-radius: 20px;
   padding: 5px;
 }
