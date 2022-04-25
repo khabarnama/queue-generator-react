@@ -16,6 +16,56 @@ function Profile() {
 
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
+  var colors = [
+    '#fb8500',
+    '#ffb703',
+    '#ae2012',
+    '#48cae4',
+    '#0077b6',
+    '#023e8a',
+    '#03045e',
+    '#f72585',
+    '#b5179e',
+    '#480ca8',
+    '#0081a7',
+    '#00afb9',
+    '#7b2cbf',
+    '#2b2d42',
+    '#8d99ae',
+    '#ef233c',
+    '#5f0f40',
+    '#ffd500',
+    '#99582a',
+    '#432818',
+    '#9381ff',
+    '#7371fc',
+    '#9D34DA',
+    '#DFE0E2',
+    '#c9ada7',
+    '#ddbdfc',
+    '#662e9b',
+    '#31263e',
+    '#44355b',
+    '#d62246',
+    '#16697a',
+    '#489fb5',
+    '#6a994e',
+    '#bc4749',
+    '#0ead69',
+    '#6f4518'
+  ]
+
+  const number_of_colors = colors.length // 36 in your example
+  const number_of_days_per_year = 365 // for brevity of the example
+
+  const day = current.getDate()
+
+  // some 'lower school math' magic :)
+  const index = Math.round((day * number_of_colors) / number_of_days_per_year)
+
+  // the color of the day is .....
+  // console.log('COLOR OF THE DAY: ', colors[index])
+
   function handleChange(e) {
     if (e.target.files[0]) {
       setPhoto(e.target.files[0])
@@ -69,11 +119,11 @@ function Profile() {
     }
   }
 
-  console.log(
-    'CURRENT > TIME ',
-    new Date().getHours(),
-    new Date().getHours() >= 12 && new Date().getHours() <= 13
-  )
+  // console.log(
+  //   'CURRENT > TIME ',
+  //   new Date().getHours(),
+  //   new Date().getHours() >= 12 && new Date().getHours() <= 13
+  // )
 
   const imageToDefault = ({ currentTarget }) => {
     console.log('ON ERROR TRIGGERED')
@@ -81,12 +131,9 @@ function Profile() {
     deletePhoto(currentUser, setPhotoURL)
   }
 
-  const toChars = (n) =>
-    `${n >= 26 ? toChars(Math.floor(n / 26) - 1) : ''}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n % 26]}`
-
   return (
     <div className='center'>
-      <div className='ticket-visual_visual '>
+      <div className='ticket-visual_visual'>
         <div className='ticket-visual-wrapper py-30'>
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
@@ -121,13 +168,9 @@ function Profile() {
               )}
               <br />
               <div className='ticket-profile_text font-mplus'>
-                {current.toLocaleDateString('en-US', options)}
-                <span className='meta'>
-                  {' '}
-                  |{' #'}
-                  {toChars(current.getHours()) +
-                    toChars(current.getDate()) +
-                    toChars(current.getMonth())}
+                {current.toLocaleDateString('en-US', options) + ' | '}
+                <span className='meta' style={{ color: colors[index] }}>
+                  {colors[index]}
                 </span>
               </div>
             </div>
@@ -146,7 +189,7 @@ function Profile() {
             </div>
           ) : (
             <button className='btn' disabled>
-              Please wait till 4 PM
+              Only available from 4pm to 5pm
             </button>
           )}
           <br />

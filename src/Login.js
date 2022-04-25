@@ -73,7 +73,7 @@ function Login() {
           <p>
             Don't have and account? <br />
             <Link className='link' to='/register'>
-              <small>Create one here</small>
+              <small>Register here</small>
             </Link>
           </p>
         </div>

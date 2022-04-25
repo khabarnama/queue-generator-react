@@ -6,6 +6,7 @@
   --color2: #ec585c;
   --color3: #e7d155;
   --color4: #56a8c6;
+  --angle: 0deg;
 }
 
 body {
@@ -26,25 +27,48 @@ body {
 * {
   box-sizing: border-box;
 }
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .ticket-visual_visual {
   text-align: center;
   max-width: 350px;
   max-height: 100vh;
   margin: 30px auto;
   position: relative;
-  transition: all 300ms cubic-bezier(0.03, 0.98, 0.53, 0.99) 0s;
+  /* transition: all 300ms cubic-bezier(0.03, 0.98, 0.53, 0.99) 0s; */
   /* background: linear-gradient(
-    to bottom left,
+    var(--angle),
     var(--color1),
     var(--color2),
     var(--color3),
     var(--color4)
   ); */
-  background: linear-gradient(to top right, #fff, #fff, #232323, #fff);
+  background: linear-gradient(var(--angle), #fff, #fff, #232323, #fff);
+  /* animation: gradient 15s ease infinite; */
+  /* animation: 10s rotate linear infinite; */
   border-radius: 20px;
   padding: 5px;
 }
-
+@keyframes rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
 .ticket-visual-wrapper {
   width: 100%;
   height: 100%;
@@ -210,4 +234,14 @@ input:-webkit-autofill {
 }
 .custom-file-input {
   padding-top: 0;
+}
+
+.blink_me {
+  animation: blinker 0.8s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
