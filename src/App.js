@@ -45,7 +45,7 @@ function App() {
         </Routes>
         <center className='text-center font-mplus'>
           <a rel='noreferrer' className='link' href='https://linktr.ee/mymakaim' target='_blank'>
-            By @mymakarim
+            Developed by Yahya
           </a>
           {' | '}
           <a rel='noreferrer' className='link' href='https://wa.me/93749996550' target='_blank'>
