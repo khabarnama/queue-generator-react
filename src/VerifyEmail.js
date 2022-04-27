@@ -50,6 +50,12 @@ function VerifyEmail() {
       })
   }
 
+  const email = localStorage.getItem('magket')
+
+  if (!email) {
+    localStorage.setItem('magket', email)
+  }
+
   return (
     <div className='ticket-visual_visual'>
       <div className='ticket-visual-wrapper'>

@@ -70,12 +70,14 @@ function Login() {
               Login
             </button>
           </form>
-          <p>
-            Don't have and account? <br />
-            <Link className='link' to='/register'>
-              <small>Register here</small>
-            </Link>
-          </p>
+          {!localStorage.getItem('magket') && (
+            <p>
+              Don't have and account? <br />
+              <Link className='link' to='/register'>
+                <small>Register here</small>
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

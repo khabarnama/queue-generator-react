@@ -56,45 +56,50 @@ function Register() {
             <br />
           </div>
           {error && <div className='auth__error'>{error}</div>}
-          <form onSubmit={register} name='registration_form' className='login_form'>
-            <div className='group'>
-              <input
-                type='email'
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label htmlFor='name'>Email</label>
-              <div className='bar'></div>
-            </div>
+          {!localStorage.getItem('magket') && (
+            <form onSubmit={register} name='registration_form' className='login_form'>
+              <div className='group'>
+                <input
+                  type='email'
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <label htmlFor='name'>Email</label>
+                <div className='bar'></div>
+              </div>
 
-            <div className='group'>
-              <input
-                type='password'
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <label htmlFor='name'>Password</label>
-              <div className='bar'></div>
-            </div>
-            <div className='group'>
-              <input
-                type='password'
-                value={confirmPassword}
-                required
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <label htmlFor='name'>Confirm Password</label>
-              <div className='bar'></div>
-            </div>
+              <div className='group'>
+                <input
+                  type='password'
+                  value={password}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <label htmlFor='name'>Password</label>
+                <div className='bar'></div>
+              </div>
+              <div className='group'>
+                <input
+                  type='password'
+                  value={confirmPassword}
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <label htmlFor='name'>Confirm Password</label>
+                <div className='bar'></div>
+              </div>
 
-            <button class='btn' type='submit'>
-              Register
-            </button>
-          </form>
+              <button class='btn' type='submit'>
+                Register
+              </button>
+            </form>
+          )}
           <span>
-            Already have an account?&nbsp;
+            {!localStorage.getItem('magket')
+              ? 'Already have an account?'
+              : 'You can only register once!'}
+            <br />
             <Link className='link' to='/login'>
               <small>Login</small>
             </Link>

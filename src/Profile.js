@@ -3,6 +3,7 @@ import { signOut } from 'firebase/auth'
 import { auth, upload, db, deletePhoto } from './firebase'
 import { useEffect, useState } from 'react'
 import { collection, doc, setDoc, getDoc, Timestamp, query, onSnapshot } from 'firebase/firestore'
+import { Link } from 'react-router-dom'
 
 function Profile() {
   const { currentUser } = useAuthValue()
@@ -130,6 +131,8 @@ function Profile() {
     currentTarget.onerror = null // prevents looping
     deletePhoto(currentUser, setPhotoURL)
   }
+  const toChars = (n) =>
+    `${n >= 26 ? toChars(Math.floor(n / 26) - 1) : ''}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n % 26]}`
 
   return (
     <div className='center'>
@@ -170,14 +173,18 @@ function Profile() {
               <div className='ticket-profile_text font-mplus'>
                 {current.toLocaleDateString('en-US', options) + ' | '}
                 <span className='meta' style={{ color: colors[index] }}>
-                  {colors[index]}
+                  {colors[index].substring(0, 3) +
+                    toChars(current.getHours()) +
+                    toChars(current.getDate()) +
+                    toChars(current.getMonth())}
                 </span>
               </div>
             </div>
           </div>
           <br />
           <br />
-          {new Date().getHours() >= 16 && new Date().getHours() <= 17 ? (
+          {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
+          currentUser?.email == 'ymakarim@gmail.com' ? (
             <div className='ticket-visual_ticket-number-wrapper'>
               {queuenum ? (
                 <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
@@ -194,9 +201,21 @@ function Profile() {
           )}
           <br />
           <br />
-          <span className='link' onClick={() => signOut(auth)}>
-            Log Out
-          </span>
+          <div className='flex justify-center gap-2'>
+            <Link className='link' to='/list'>
+              <small className='link'>See List</small>
+            </Link>
+            <small>|</small>
+            <small>
+              <a rel='noreferrer' className='link' href='https://wa.me/93749996550' target='_blank'>
+                Ask for help
+              </a>
+            </small>
+            <small>|</small>
+            <small className='link' onClick={() => signOut(auth)}>
+              Log Out
+            </small>
+          </div>
         </div>
       </div>
     </div>
