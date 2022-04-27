@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Profile from './Profile'
 import Register from './Register'
+import List from './List'
 import VerifyEmail from './VerifyEmail'
 import Login from './Login'
 import { useState, useEffect } from 'react'
@@ -42,6 +43,7 @@ function App() {
             element={!currentUser?.emailVerified ? <Register /> : <Navigate to='/' replace />}
           />
           <Route path='/verify-email' element={<VerifyEmail />} />
+          <Route path='/list' element={<List />} />
         </Routes>
         <center className='text-center font-mplus'>
           <a rel='noreferrer' className='link' href='https://linktr.ee/mymakaim' target='_blank'>
