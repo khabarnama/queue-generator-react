@@ -151,13 +151,15 @@ function Profile() {
                   {photoURL === null && (
                     <div className='fields'>
                       <input className='custom-file-input' type='file' onChange={handleChange} />
-                      <button
-                        className='btn-upload'
-                        disabled={loading || !photo}
-                        onClick={handleClick}
-                      >
-                        Upload
-                      </button>
+                      {photo && (
+                        <button
+                          className='btn-upload'
+                          disabled={loading || !photo}
+                          onClick={handleClick}
+                        >
+                          {loading ? 'Uploading...' : 'Upload'}
+                        </button>
+                      )}
                     </div>
                   )}
                   <img
@@ -184,8 +186,8 @@ function Profile() {
           <br />
           <br />
           {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
-          currentUser?.email == 'ymakarim@gmail.com' ? (
-            <div className='ticket-visual_ticket-number-wrapper'>
+          currentUser?.email === 'ymakarim@gmail.com' ? (
+            <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
               {queuenum ? (
                 <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
               ) : (
@@ -195,11 +197,12 @@ function Profile() {
               )}
             </div>
           ) : (
-            <button className='btn' disabled>
-              Only available from 4pm to 5pm
-            </button>
+            <div className='fields'>
+              <button className='btn' disabled>
+                Only available from 4pm to 5pm
+              </button>
+            </div>
           )}
-          <br />
           <br />
           <div className='flex justify-center gap-2'>
             <Link className='link' to='/list'>

@@ -10,6 +10,7 @@ function List() {
   const current = new Date()
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
   const itemshere = []
+
   useEffect(() => {
     /* function to get all tasks from firestore in realtime */
     const q = query(collection(db, date.toString()))
@@ -40,6 +41,17 @@ function List() {
     setDeleting(false)
   }
 
+  const bulkDelete = async () => {
+    setDeleting(true)
+    items.forEach((item) => {
+      handleSubmit(item.email)
+    })
+    setDeleting(false)
+  }
+  const cardImage = (email) => {
+    // find image of the user based on email and return it
+  }
+
   return (
     <div className='center'>
       <div className='ticket-visual_visual'>
@@ -49,17 +61,34 @@ function List() {
           ) : (
             items.map((item, index) => {
               return (
-                <div key={index} className='flex justify-between gap-2 p-2'>
-                  <div className=''>№ {`${item.data.id}`}</div>
-                  <small>|</small>
-                  <div className=''>{`${item.email.split('@')[0]}`}</div>
-                  <small>|</small>
-                  <button className='btn' onClick={() => handleSubmit(item.email)}>
-                    {deleting ? 'Deleting...' : 'Delete'}
-                  </button>
+                <div key={index}>
+                  <br />
+                  <div className='ticket-visual_ticket-number'>№ {`${item.data.id}`}</div>
+                  <div className='ticket-profile_profile'>
+                    <img
+                      width='100%'
+                      src={cardImage(item.email) ?? './card.png'}
+                      alt='Card Illustration'
+                      className='ticket-profile_image'
+                    />
+                    <br />
+                    {currentUser?.email === 'ymakarim@gmail.com' && (
+                      <button className='btn inline-block' onClick={() => handleSubmit(item.email)}>
+                        {deleting ? 'Deleting...' : 'Delete'}
+                      </button>
+                    )}
+                    <hr />
+                  </div>
                 </div>
               )
             })
+          )}
+          {currentUser?.email === 'ymakarim@gmail.com' && items.length > 0 && (
+            <div className='fields'>
+              <button className='btn' onClick={() => bulkDelete()}>
+                {deleting ? 'Deleting...' : 'Delete All'}
+              </button>
+            </div>
           )}
         </div>
       </div>

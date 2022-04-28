@@ -89,7 +89,7 @@ function Register() {
                 <label htmlFor='name'>Confirm Password</label>
                 <div className='bar'></div>
               </div>
-
+              <br />
               <button class='btn' type='submit'>
                 Register
               </button>
@@ -101,7 +101,7 @@ function Register() {
               : 'You can only register once!'}
             <br />
             <Link className='link' to='/login'>
-              <small>Login</small>
+              <small>Login here</small>
             </Link>
           </span>
         </div>

@@ -41,7 +41,7 @@ function Login() {
             <br />
             <br />
           </div>
-          {error && <div className='auth__error'>{error}</div>}
+          {error && <div className='auth__error'>{error.toString().replace('Firebase: ', '')}</div>}
           <form onSubmit={login} name='login_form' className='login_form'>
             <div className='group'>
               <input
