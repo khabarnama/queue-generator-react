@@ -56,7 +56,7 @@ function Register() {
             <br />
           </div>
           {error && <div className='auth__error'>{error}</div>}
-          {!localStorage.getItem('magket') && (
+          {localStorage.getItem('magket') !== 'ymakarim@gmail.com' && (
             <form onSubmit={register} name='registration_form' className='login_form'>
               <div className='group'>
                 <input
@@ -96,7 +96,7 @@ function Register() {
             </form>
           )}
           <span>
-            {!localStorage.getItem('magket')
+            {localStorage.getItem('magket') !== 'ymakarim@gmail.com'
               ? 'Already have an account?'
               : 'You can only register once!'}
             <br />

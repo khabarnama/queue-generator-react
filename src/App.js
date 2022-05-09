@@ -45,15 +45,17 @@ function App() {
           <Route path='/verify-email' element={<VerifyEmail />} />
           <Route path='/list' element={<List />} />
         </Routes>
-        <center className='text-center font-mplus'>
-          <a rel='noreferrer' className='link' href='https://linktr.ee/mymakaim' target='_blank'>
-            Developed by Yahya
-          </a>
-          {' | '}
-          <a rel='noreferrer' className='link' href='https://wa.me/93749996550' target='_blank'>
-            Contact
-          </a>
-        </center>
+        {false && (
+          <center className='text-center font-mplus'>
+            <a rel='noreferrer' className='link' href='https://linktr.ee/mymakaim' target='_blank'>
+              Developed by Yahya
+            </a>
+            {' | '}
+            <a rel='noreferrer' className='link' href='https://wa.me/93749996550' target='_blank'>
+              Contact
+            </a>
+          </center>
+        )}
       </AuthProvider>
     </Router>
   )
