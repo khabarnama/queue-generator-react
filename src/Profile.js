@@ -96,10 +96,8 @@ function Profile() {
     }
 
     const getQueue = async () => {
-      const querySnapshot = await getDocs(collection(db, date.toString())).orderBy(
-        'created',
-        'desc'
-      )
+      const q = query(collection(db, date.toString()), orderBy('created', 'desc'))
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc, index) => {
         if (currentUser?.email === doc.id) {
           console.log(doc.id, ' => ', doc.data())
