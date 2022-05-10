@@ -2,23 +2,14 @@ import { useAuthValue } from './AuthContext'
 import { signOut } from 'firebase/auth'
 import { auth, upload, db, deletePhoto } from './firebase'
 import { useEffect, useState } from 'react'
-import {
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  getDocs,
-  Timestamp,
-  query,
-  onSnapshot
-} from 'firebase/firestore'
+import { collection, doc, setDoc, getDocs, Timestamp } from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 
 function Profile() {
   const { currentUser } = useAuthValue()
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [size, setSize] = useState(0)
+  const [submitting, setSubmitting] = useState(false)
   const [queuenum, setQueuenum] = useState(null)
   const [photoURL, setPhotoURL] = useState(null)
   const current = new Date()
@@ -109,38 +100,40 @@ function Profile() {
     // getQueue()
 
     /* function to get all tasks from firestore in realtime */
-    const q = query(collection(db, date.toString()))
-    onSnapshot(q, (querySnapshot) => {
-      setSize(querySnapshot.size)
-    })
-  }, [currentUser, date, queuenum])
+    // const q = query(collection(db, date.toString()))
+    // onSnapshot(q, (querySnapshot) => {
+    //   setSize(querySnapshot.size)
+    // })
+  }, [currentUser])
 
   /* function to add new task to firestore */
   const handleSubmit = async () => {
+    setSubmitting(true)
     try {
       await setDoc(doc(db, date.toString(), `${currentUser?.email}`), {
         photoURL: currentUser?.photoURL,
         created: Timestamp.now()
-      }).then((doc) => {
+      }).then(async (doc) => {
         console.log('Document written with ID: ', doc)
         const docs = []
-        const getQueue = async () => {
-          const querySnapshot = await getDocs(collection(db, date.toString()))
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, ' => ', doc.data())
-            docs.push(doc.id)
-          })
-        }
-
-        getQueue().then(() => {
-          const index = docs.findIndex((item) => item === currentUser?.email)
-          console.log('QUEUE NUM: ', queuenum)
-          console.log('INDEX: ', index)
-          setQueuenum(index + 1)
-          console.log('NEW QUEU NUM: ', queuenum)
+        // const getQueue = async () => {
+        const querySnapshot = await getDocs(collection(db, date.toString()))
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, ' => ', doc.data())
+          docs.push(doc.id)
         })
+        // }
+
+        // getQueue().then(() => {
+        const index = docs.findIndex((item) => item === currentUser?.email)
+        console.log('QUEUE NUM: ', queuenum)
+        console.log('INDEX: ', index)
+        setQueuenum(index + 1)
+        console.log('NEW QUEU NUM: ', queuenum)
+        // })
       })
+      setSubmitting(false)
     } catch (err) {
       alert(err)
     }
@@ -226,7 +219,9 @@ function Profile() {
               <div className='ticket-visual_ticket-number bold'>#000{`${checkTime(queuenum)}`}</div>
             ) : (
               <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
-                {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
+                {!photoURL
+                  ? 'Please upload your STUDENT ID!'
+                  : `Get Queue Number ${submitting ? '...' : ''}`}
               </button>
             )}
           </div>

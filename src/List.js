@@ -9,9 +9,9 @@ function List() {
   const [items, setItems] = useState([])
   const current = new Date()
   const date = `${current.getDate()}-${current.getMonth() + 1}-${current.getFullYear()}`
-  const itemshere = []
 
   useEffect(() => {
+    let itemshere = []
     /* function to get all tasks from firestore in realtime */
     const q = query(collection(db, date.toString()))
     onSnapshot(q, (querySnapshot) => {
@@ -22,7 +22,7 @@ function List() {
       // console.log('Current cities in CA: ', itemshere.join(', '))
       setItems(itemshere)
     })
-  }, [currentUser, date, itemshere])
+  }, [currentUser, date, items])
 
   /* function to add new task to firestore */
   const handleSubmit = async (userEmail) => {
