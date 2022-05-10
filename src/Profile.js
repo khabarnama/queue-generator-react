@@ -107,23 +107,6 @@ function Profile() {
     // }
 
     // getQueue()
-    const docs = []
-    const getQueue = async () => {
-      const querySnapshot = await getDocs(collection(db, date.toString()))
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data())
-        docs.push(doc.id)
-      })
-    }
-
-    getQueue().then(() => {
-      const index = docs.findIndex((item) => item === currentUser?.email)
-      console.log('QUEUE NUM: ', queuenum)
-      console.log('INDEX: ', index)
-      setQueuenum(index + 1)
-      console.log('NEW QUEU NUM: ', queuenum)
-    })
 
     /* function to get all tasks from firestore in realtime */
     const q = query(collection(db, date.toString()))
@@ -136,9 +119,27 @@ function Profile() {
   const handleSubmit = async () => {
     try {
       await setDoc(doc(db, date.toString(), `${currentUser?.email}`), {
+        photoURL: currentUser?.photoURL,
         created: Timestamp.now()
       }).then((doc) => {
         console.log('Document written with ID: ', doc)
+        const docs = []
+        const getQueue = async () => {
+          const querySnapshot = await getDocs(collection(db, date.toString()))
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, ' => ', doc.data())
+            docs.push(doc.id)
+          })
+        }
+
+        getQueue().then(() => {
+          const index = docs.findIndex((item) => item === currentUser?.email)
+          console.log('QUEUE NUM: ', queuenum)
+          console.log('INDEX: ', index)
+          setQueuenum(index + 1)
+          console.log('NEW QUEU NUM: ', queuenum)
+        })
       })
     } catch (err) {
       alert(err)

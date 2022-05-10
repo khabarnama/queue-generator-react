@@ -48,9 +48,14 @@ function List() {
     })
     setDeleting(false)
   }
-  const cardImage = (email) => {
-    // console.log(FirebaseDatabase.getReference('users').orderByKey().equalTo(yourUID))
-    // return 'https://lh3.googleusercontent.com/a-/' + md5(email) + '=s' + 100
+  function checkTime(i) {
+    if (i < 100) {
+      i = '0' + i
+    } // add zero in front of numbers < 10
+    if (i < 10) {
+      i = '0' + i
+    } // add zero in front of numbers < 10
+    return i
   }
 
   return (
@@ -64,13 +69,13 @@ function List() {
               return (
                 <div key={index}>
                   <br />
-                  <div className='ticket-visual_ticket-number font-right'>
-                    № {`${item.data.id}`}
+                  <div className='ticket-visual_ticket-number bold'>
+                    #000{`${checkTime(index + 1)}`}
                   </div>
                   <div className='ticket-profile_profile'>
                     <img
                       width='100%'
-                      src={cardImage(item.email) ?? './card.png'}
+                      src={item.data.photoURL ?? './card.png'}
                       alt='Card Illustration'
                       className='ticket-profile_image'
                     />
