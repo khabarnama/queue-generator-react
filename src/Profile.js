@@ -136,7 +136,6 @@ function Profile() {
   const handleSubmit = async () => {
     try {
       await setDoc(doc(db, date.toString(), `${currentUser?.email}`), {
-        id: size + 1,
         created: Timestamp.now()
       }).then((doc) => {
         console.log('Document written with ID: ', doc)
@@ -221,26 +220,15 @@ function Profile() {
           </div>
           <br />
           <br />
-          {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
-          currentUser?.email === 'ymakarim@gmail.com' ? (
-            <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
-              {queuenum ? (
-                <div className='ticket-visual_ticket-number bold'>
-                  #000{`${checkTime(queuenum)}`}
-                </div>
-              ) : (
-                <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
-                  {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className='fields'>
-              <button className='btn' disabled>
-                Only available from 4pm to 5pm
+          <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
+            {queuenum ? (
+              <div className='ticket-visual_ticket-number bold'>#000{`${checkTime(queuenum)}`}</div>
+            ) : (
+              <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
+                {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
               </button>
-            </div>
-          )}
+            )}
+          </div>
           <br />
           <div className='flex justify-center gap-2'>
             <Link className='link' to='/list'>
