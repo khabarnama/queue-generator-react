@@ -8,7 +8,6 @@ import {
   setDoc,
   getDoc,
   getDocs,
-  orderBy,
   Timestamp,
   query,
   onSnapshot
@@ -19,7 +18,7 @@ function Profile() {
   const { currentUser } = useAuthValue()
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
-  // const [size, setSize] = useState(0)
+  const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
   const [photoURL, setPhotoURL] = useState(null)
   const current = new Date()
@@ -95,40 +94,49 @@ function Profile() {
       setPhotoURL(currentUser?.photoURL)
     }
 
+    // const getQueue = async () => {
+    //   const docRef = doc(db, date.toString(), `${currentUser?.email}`)
+    //   const docSnap = await getDoc(docRef)
+
+    //   if (docSnap.exists()) {
+    //     setQueuenum(docSnap.data().id)
+    //   } else {
+    //     // doc.data() will be undefined in this case
+    //     console.log('No such document!')
+    //   }
+    // }
+
+    // getQueue()
+    const docs = []
     const getQueue = async () => {
-      const q = query(collection(db, date.toString()), orderBy('created', 'desc'))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doc, index) => {
-        if (currentUser?.email === doc.id) {
-          console.log(doc.id, ' => ', doc.data())
-          setQueuenum(index)
-        }
+      const querySnapshot = await getDocs(collection(db, date.toString()))
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, ' => ', doc.data())
+        docs.push(doc.id)
       })
-
-      // const docRef = doc(db, date.toString(), `${currentUser?.email}`)
-      // const docSnap = await getDoc(docRef)
-
-      // if (docSnap.exists()) {
-      //   setQueuenum(docSnap.data().id)
-      // } else {
-      //   // doc.data() will be undefined in this case
-      //   console.log('No such document!')
-      // }
     }
 
-    getQueue()
+    getQueue().then(() => {
+      const index = docs.findIndex((item) => item === currentUser?.email)
+      console.log('QUEUE NUM: ', queuenum)
+      console.log('INDEX: ', index)
+      setQueuenum(index + 1)
+      console.log('NEW QUEU NUM: ', queuenum)
+    })
 
     /* function to get all tasks from firestore in realtime */
-    // const q = query(collection(db, date.toString()))
-    // onSnapshot(q, (querySnapshot) => {
-    //   setSize(querySnapshot.size)
-    // })
-  }, [currentUser, date])
+    const q = query(collection(db, date.toString()))
+    onSnapshot(q, (querySnapshot) => {
+      setSize(querySnapshot.size)
+    })
+  }, [currentUser, date, queuenum])
 
   /* function to add new task to firestore */
   const handleSubmit = async () => {
     try {
       await setDoc(doc(db, date.toString(), `${currentUser?.email}`), {
+        id: size + 1,
         created: Timestamp.now()
       }).then((doc) => {
         console.log('Document written with ID: ', doc)
@@ -169,7 +177,7 @@ function Profile() {
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <div className='ticket-visual_ticket-number font-right'>Ticket</div>
-            <p className>{currentUser?.email}</p>
+            <p>{currentUser?.email}</p>
             <br />
           </div>
           <div className='ticket-visual_profile'>
@@ -214,8 +222,7 @@ function Profile() {
           <br />
           <br />
           {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
-          currentUser?.email === 'ymakarim@gmail.com' ||
-          currentUser?.email === 'myahyamakarim@gmail.com' ? (
+          currentUser?.email === 'ymakarim@gmail.com' ? (
             <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
               {queuenum ? (
                 <div className='ticket-visual_ticket-number bold'>
