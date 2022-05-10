@@ -1,8 +1,7 @@
 import { useAuthValue } from './AuthContext'
 import { db } from './firebase'
 import { useEffect, useState } from 'react'
-import { collection, query, doc, deleteDoc, onSnapshot, FirebaseDatabase } from 'firebase/firestore'
-import { md5 } from 'pure-md5'
+import { collection, query, doc, deleteDoc, onSnapshot } from 'firebase/firestore'
 
 function List() {
   const { currentUser } = useAuthValue()
