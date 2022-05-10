@@ -37,7 +37,7 @@ function Login() {
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <br />
-            <div className='ticket-visual_ticket-number'>Log In</div>
+            <div className='ticket-visual_ticket-number font-right'>Log In</div>
             <br />
             <br />
           </div>
@@ -70,7 +70,7 @@ function Login() {
               Login
             </button>
           </form>
-          {localStorage.getItem('magket') !== 'ymakarim@gmail.com' && (
+          {localStorage.getItem('mağket') !== 'ymakarim@gmail.com' && (
             <p>
               Don't have and account? <br />
               <Link className='link' to='/register'>

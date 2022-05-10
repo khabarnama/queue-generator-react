@@ -50,10 +50,10 @@ function VerifyEmail() {
       })
   }
 
-  const email = localStorage.getItem('magket')
+  const email = localStorage.getItem('mağket')
 
   if (!email) {
-    localStorage.setItem('magket', email)
+    localStorage.setItem('mağket', email)
   }
 
   return (
@@ -62,7 +62,7 @@ function VerifyEmail() {
         <div className='ticket-visual_ticket-number-wrapper'>
           <br />
           <br />
-          <div className='ticket-visual_ticket-number'>Verify</div>
+          <div className='ticket-visual_ticket-number font-right'>Verify</div>
           <br />
           <br />
         </div>

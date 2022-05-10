@@ -134,14 +134,24 @@ function Profile() {
   const toChars = (n) =>
     `${n >= 26 ? toChars(Math.floor(n / 26) - 1) : ''}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n % 26]}`
 
+  function checkTime(i) {
+    if (i < 100) {
+      i = '0' + i
+    } // add zero in front of numbers < 10
+    if (i < 10) {
+      i = '0' + i
+    } // add zero in front of numbers < 10
+    return i
+  }
+
   return (
     <div className='center'>
       <div className='ticket-visual_visual'>
         <div className='ticket-visual-wrapper py-30'>
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
-            <div className='ticket-visual_ticket-number'>Ticket</div>
-            <p>{currentUser?.email}</p>
+            <div className='ticket-visual_ticket-number font-right'>Ticket</div>
+            <p className>{currentUser?.email}</p>
             <br />
           </div>
           <div className='ticket-visual_profile'>
@@ -186,10 +196,13 @@ function Profile() {
           <br />
           <br />
           {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
-          currentUser?.email === 'ymakarim@gmail.com' ? (
+          currentUser?.email === 'ymakarim@gmail.com' ||
+          currentUser?.email === 'myahyamakarim@gmail.com' ? (
             <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
               {queuenum ? (
-                <div className='ticket-visual_ticket-number'>№ {`${queuenum}`}</div>
+                <div className='ticket-visual_ticket-number bold'>
+                  #000{`${checkTime(queuenum)}`}
+                </div>
               ) : (
                 <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
                   {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}

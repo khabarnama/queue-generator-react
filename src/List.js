@@ -1,7 +1,8 @@
 import { useAuthValue } from './AuthContext'
 import { db } from './firebase'
 import { useEffect, useState } from 'react'
-import { collection, query, doc, deleteDoc, onSnapshot } from 'firebase/firestore'
+import { collection, query, doc, deleteDoc, onSnapshot, FirebaseDatabase } from 'firebase/firestore'
+import { md5 } from 'pure-md5'
 
 function List() {
   const { currentUser } = useAuthValue()
@@ -49,7 +50,8 @@ function List() {
     setDeleting(false)
   }
   const cardImage = (email) => {
-    // find image of the user based on email and return it
+    // console.log(FirebaseDatabase.getReference('users').orderByKey().equalTo(yourUID))
+    // return 'https://lh3.googleusercontent.com/a-/' + md5(email) + '=s' + 100
   }
 
   return (
@@ -63,7 +65,9 @@ function List() {
               return (
                 <div key={index}>
                   <br />
-                  <div className='ticket-visual_ticket-number'>№ {`${item.data.id}`}</div>
+                  <div className='ticket-visual_ticket-number font-right'>
+                    № {`${item.data.id}`}
+                  </div>
                   <div className='ticket-profile_profile'>
                     <img
                       width='100%'

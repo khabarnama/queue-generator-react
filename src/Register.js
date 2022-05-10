@@ -51,12 +51,12 @@ function Register() {
           <div className='ticket-visual_ticket-number-wrapper'>
             <br />
             <br />
-            <div className='ticket-visual_ticket-number'>Register</div>
+            <div className='ticket-visual_ticket-number font-right'>Register</div>
             <br />
             <br />
           </div>
           {error && <div className='auth__error'>{error}</div>}
-          {localStorage.getItem('magket') !== 'ymakarim@gmail.com' && (
+          {localStorage.getItem('mağket') !== 'ymakarim@gmail.com' && (
             <form onSubmit={register} name='registration_form' className='login_form'>
               <div className='group'>
                 <input
@@ -96,7 +96,7 @@ function Register() {
             </form>
           )}
           <span>
-            {localStorage.getItem('magket') !== 'ymakarim@gmail.com'
+            {localStorage.getItem('mağket') !== 'ymakarim@gmail.com'
               ? 'Already have an account?'
               : 'You can only register once!'}
             <br />
