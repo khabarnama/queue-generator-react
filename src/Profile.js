@@ -2,14 +2,24 @@ import { useAuthValue } from './AuthContext'
 import { signOut } from 'firebase/auth'
 import { auth, upload, db, deletePhoto } from './firebase'
 import { useEffect, useState } from 'react'
-import { collection, doc, setDoc, getDoc, Timestamp, query, onSnapshot } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  orderBy,
+  Timestamp,
+  query,
+  onSnapshot
+} from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 
 function Profile() {
   const { currentUser } = useAuthValue()
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [size, setSize] = useState(0)
+  // const [size, setSize] = useState(0)
   const [queuenum, setQueuenum] = useState(null)
   const [photoURL, setPhotoURL] = useState(null)
   const current = new Date()
@@ -86,31 +96,41 @@ function Profile() {
     }
 
     const getQueue = async () => {
-      const docRef = doc(db, date.toString(), `${currentUser?.email}`)
-      const docSnap = await getDoc(docRef)
+      const querySnapshot = await getDocs(collection(db, date.toString())).orderBy(
+        'created',
+        'desc'
+      )
+      querySnapshot.forEach((doc, index) => {
+        if (currentUser?.email === doc.id) {
+          console.log(doc.id, ' => ', doc.data())
+          setQueuenum(index)
+        }
+      })
 
-      if (docSnap.exists()) {
-        setQueuenum(docSnap.data().id)
-      } else {
-        // doc.data() will be undefined in this case
-        console.log('No such document!')
-      }
+      // const docRef = doc(db, date.toString(), `${currentUser?.email}`)
+      // const docSnap = await getDoc(docRef)
+
+      // if (docSnap.exists()) {
+      //   setQueuenum(docSnap.data().id)
+      // } else {
+      //   // doc.data() will be undefined in this case
+      //   console.log('No such document!')
+      // }
     }
 
     getQueue()
 
     /* function to get all tasks from firestore in realtime */
-    const q = query(collection(db, date.toString()))
-    onSnapshot(q, (querySnapshot) => {
-      setSize(querySnapshot.size)
-    })
-  }, [currentUser, date, size])
+    // const q = query(collection(db, date.toString()))
+    // onSnapshot(q, (querySnapshot) => {
+    //   setSize(querySnapshot.size)
+    // })
+  }, [currentUser, date])
 
   /* function to add new task to firestore */
   const handleSubmit = async () => {
     try {
       await setDoc(doc(db, date.toString(), `${currentUser?.email}`), {
-        id: size + 1,
         created: Timestamp.now()
       }).then((doc) => {
         console.log('Document written with ID: ', doc)
