@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Profile from './Profile'
 import Register from './Register'
+import Yahya from './yahya'
 import List from './List'
 import VerifyEmail from './VerifyEmail'
 import Login from './Login'
@@ -44,6 +45,7 @@ function App() {
           />
           <Route path='/verify-email' element={<VerifyEmail />} />
           <Route path='/list' element={<List />} />
+          <Route path='/yahya' element={<Yahya />} />
         </Routes>
         {false && (
           <center className='text-center font-mplus'>

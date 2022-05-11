@@ -10,6 +10,7 @@ function Profile() {
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [admin, setAdmin] = useState(false)
   const [queuenum, setQueuenum] = useState(null)
   const [photoURL, setPhotoURL] = useState(null)
   const current = new Date()
@@ -81,12 +82,21 @@ function Profile() {
   }
 
   const docs = []
+  const admins = []
   const getQueue = async () => {
     const querySnapshot = await getDocs(collection(db, date.toString()))
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, ' => ', doc.data())
+      // console.log(doc.id, ' => ', doc.data())
       docs.push(doc.id)
+    })
+  }
+  const getAdmins = async () => {
+    const querySnapshot = await getDocs(collection(db, 'admins'))
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, ' => ', doc.data())
+      admins.push(doc.id)
     })
   }
   console.log('DOCS:', docs)
@@ -97,6 +107,16 @@ function Profile() {
     console.log('INDEX: ', index)
     setQueuenum(index + 1)
     console.log('NEW QUEU NUM: ', queuenum)
+  })
+
+  getAdmins().then(() => {
+    const index = docs.findIndex((item) => item == currentUser?.email)
+    // console.log('QUEUE NUM: ', queuenum)
+    // console.log('INDEX: ', index)
+    if (index) {
+      setAdmin(true)
+    }
+    // console.log('NEW QUEU NUM: ', queuenum)
   })
 
   useEffect(() => {
@@ -117,13 +137,13 @@ function Profile() {
     // }
 
     getQueue()
-
+    getAdmins()
     /* function to get all tasks from firestore in realtime */
     // const q = query(collection(db, date.toString()))
     // onSnapshot(q, (querySnapshot) => {
     //   setSize(querySnapshot.size)
     // })
-  }, [currentUser, getQueue])
+  }, [currentUser, getQueue, getAdmins])
 
   /* function to add new task to firestore */
   const handleSubmit = async () => {
@@ -218,8 +238,7 @@ function Profile() {
           <br />
           <br />
           <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
-            {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
-            currentUser?.email === 'ymakarim@gmail.com' ? (
+            {(new Date().getHours() >= 16 && new Date().getHours() <= 17) || admin ? (
               <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
                 {queuenum ? (
                   <div className='ticket-visual_ticket-number bold'>
@@ -231,7 +250,11 @@ function Profile() {
                     disabled={photoURL == null}
                     onClick={() => handleSubmit()}
                   >
-                    {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
+                    {!photoURL
+                      ? 'Please upload your STUDENT ID!'
+                      : submitting
+                      ? 'Get Queue Number ....'
+                      : 'Get Queue Number'}
                   </button>
                 )}
               </div>

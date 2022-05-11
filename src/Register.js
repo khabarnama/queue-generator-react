@@ -90,7 +90,7 @@ function Register() {
                 <div className='bar'></div>
               </div>
               <br />
-              <button class='btn' type='submit'>
+              <button className='btn' type='submit'>
                 Register
               </button>
             </form>
