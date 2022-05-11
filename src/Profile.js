@@ -80,6 +80,25 @@ function Profile() {
     upload(photo, currentUser, setLoading, setPhotoURL)
   }
 
+  const docs = []
+  const getQueue = async () => {
+    const querySnapshot = await getDocs(collection(db, date.toString()))
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, ' => ', doc.data())
+      docs.push(doc.id)
+    })
+  }
+  console.log('DOCS:', docs)
+
+  getQueue().then(() => {
+    const index = docs.findIndex((item) => item == currentUser?.email)
+    console.log('QUEUE NUM: ', queuenum)
+    console.log('INDEX: ', index)
+    setQueuenum(index + 1)
+    console.log('NEW QUEU NUM: ', queuenum)
+  })
+
   useEffect(() => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser?.photoURL)
@@ -97,14 +116,14 @@ function Profile() {
     //   }
     // }
 
-    // getQueue()
+    getQueue()
 
     /* function to get all tasks from firestore in realtime */
     // const q = query(collection(db, date.toString()))
     // onSnapshot(q, (querySnapshot) => {
     //   setSize(querySnapshot.size)
     // })
-  }, [currentUser])
+  }, [currentUser, getQueue])
 
   /* function to add new task to firestore */
   const handleSubmit = async () => {
@@ -115,23 +134,7 @@ function Profile() {
         created: Timestamp.now()
       }).then(async (doc) => {
         console.log('Document written with ID: ', doc)
-        const docs = []
-        // const getQueue = async () => {
-        const querySnapshot = await getDocs(collection(db, date.toString()))
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data())
-          docs.push(doc.id)
-        })
-        // }
-
-        // getQueue().then(() => {
-        const index = docs.findIndex((item) => item === currentUser?.email)
-        console.log('QUEUE NUM: ', queuenum)
-        console.log('INDEX: ', index)
-        setQueuenum(index + 1)
-        console.log('NEW QUEU NUM: ', queuenum)
-        // })
+        getQueue()
       })
       setSubmitting(false)
     } catch (err) {
@@ -215,14 +218,29 @@ function Profile() {
           <br />
           <br />
           <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
-            {queuenum ? (
-              <div className='ticket-visual_ticket-number bold'>#000{`${checkTime(queuenum)}`}</div>
+            {(new Date().getHours() >= 16 && new Date().getHours() <= 17) ||
+            currentUser?.email === 'ymakarim@gmail.com' ? (
+              <div className='ticket-visual_ticket-number-wrapper fields justify-center'>
+                {queuenum ? (
+                  <div className='ticket-visual_ticket-number bold'>
+                    #000{`${checkTime(queuenum)}`}
+                  </div>
+                ) : (
+                  <button
+                    className='btn'
+                    disabled={photoURL == null}
+                    onClick={() => handleSubmit()}
+                  >
+                    {!photoURL ? 'Please upload your STUDENT ID!' : 'Get Queue Number'}
+                  </button>
+                )}
+              </div>
             ) : (
-              <button className='btn' disabled={photoURL == null} onClick={() => handleSubmit()}>
-                {!photoURL
-                  ? 'Please upload your STUDENT ID!'
-                  : `Get Queue Number ${submitting ? '...' : ''}`}
-              </button>
+              <div className='fields'>
+                <button className='btn' disabled>
+                  Only available from 4pm to 5pm
+                </button>
+              </div>
             )}
           </div>
           <br />
