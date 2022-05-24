@@ -6,6 +6,7 @@ import { useAuthValue } from './AuthContext'
 
 function Register() {
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -24,6 +25,7 @@ function Register() {
   }
 
   const register = (e) => {
+    setLoading(true)
     e.preventDefault()
     setError('')
     if (validatePassword()) {
@@ -42,6 +44,7 @@ function Register() {
     setEmail('')
     setPassword('')
     setConfirmPassword('')
+    setLoading(false)
   }
 
   return (
@@ -90,8 +93,8 @@ function Register() {
                 <div className='bar'></div>
               </div>
               <br />
-              <button className='btn' type='submit'>
-                Register
+              <button disabled={loading} className='btn' type='submit'>
+                Register {loading && '...'}
               </button>
             </form>
           )}
