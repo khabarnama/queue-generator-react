@@ -203,7 +203,7 @@ function Profile() {
             <div className='ticket-profile_profile'>
               {currentUser && (
                 <>
-                  {photoURL === null && (
+                  {false && photoURL === null && (
                     <div className='fields'>
                       <input className='custom-file-input' type='file' onChange={handleChange} />
                       {photo && (
@@ -248,16 +248,8 @@ function Profile() {
                     #000{`${checkTime(queuenum)}`}
                   </div>
                 ) : (
-                  <button
-                    className='btn'
-                    disabled={photoURL == null}
-                    onClick={() => handleSubmit()}
-                  >
-                    {!photoURL
-                      ? 'Please upload your STUDENT ID!'
-                      : submitting
-                      ? 'Get Queue Number ....'
-                      : 'Get Queue Number'}
+                  <button className='btn' onClick={() => handleSubmit()}>
+                    {'Get Queue Number'}
                   </button>
                 )}
               </div>
