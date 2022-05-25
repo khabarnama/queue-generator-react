@@ -88,9 +88,10 @@ function Profile() {
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       // console.log(doc.id, ' => ', doc.data())
-      docs.push(doc.id)
+      docs.push({ id: doc.id, created: doc.data() })
     })
   }
+
   const getAdmins = async () => {
     const querySnapshot = await getDocs(collection(db, 'admins'))
     querySnapshot.forEach((doc) => {
@@ -102,7 +103,9 @@ function Profile() {
   console.log('DOCS:', docs)
 
   getQueue().then(() => {
-    const index = docs.findIndex((item) => item == currentUser?.email)
+    docs.sort((a, b) => a.created.created - b.created.created)
+    console.log('SORTED: ', docs)
+    const index = docs.findIndex((item) => item.id == currentUser?.email)
     console.log('QUEUE NUM: ', queuenum)
     console.log('INDEX: ', index)
     setQueuenum(index + 1)

@@ -20,7 +20,7 @@ function List() {
         // console.log(`DOC.DATA(): ${doc.data()}`)
       })
       // console.log('Current cities in CA: ', itemshere.join(', '))
-      setItems(itemshere)
+      setItems(itemshere.sort((a, b) => a.data.created - b.data.created))
     })
   }, [currentUser, date, items])
 
